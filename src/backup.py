@@ -7,11 +7,13 @@ import msgfunc as prnt
 def backup_file( config, back_file, destination):
     if(fileu.locate_file(config[back_file])):
         prnt.prnt( '-s', 'Located your '+config[back_file]+' file!')
-        if( copyfile( config[back_file], destination)):
+        try:
+            copyfile( config[back_file], destination)
             prnt.prnt( '-s', 'Backed it up successfully!')
             return True
-        else:
+        except IOError as error:
             prnt.prnt( '-f', 'Failed to back it up!')
+            prnt.prnt( '-f', 'IOError: {0}'.format(error))
             return False
     else:
         prnt.prnt( '-f', 'Could not locate '+config[back_file]+' file!')

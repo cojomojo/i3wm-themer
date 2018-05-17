@@ -7,11 +7,13 @@ import msgfunc as prnt
 def install_file( config, install_file, new_file):
     if(fileu.locate_file(config[install_file])):
         prnt.prnt( '-s', 'Located '+config[install_file]+'file!')
-        if(copyfile(new_file, config[install_file])):
+        try:
+            copyfile(new_file, config[install_file])
             prnt.prnt( '-s', 'Installed the new file successfully!')
             return True
-        else:
+        except IOError as error:
             prnt.prnt( '-f', 'Failed to install the new file!')
+            prnt.prnt( '-f', 'IOError: {0}'.format(error))
             return False
     else:
         prnt.prnt( '-f', 'Could not locate '+config[install_file]+' file!')
